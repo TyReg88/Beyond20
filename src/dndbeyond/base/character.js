@@ -463,9 +463,9 @@ class Character extends CharacterBase {
     updateSpells() {
         this._spells = [];
         // Look for spell names in the spell list sections.
-        // Assuming spell names are within specific elements, e.g., 'span.spell-name' or 'a.spell-name'
-        // This might need refinement based on the exact D&D Beyond DOM structure for spells.
-        $(".ct-spells-spell__name").each((i, el) => {
+        // The D&D Beyond DOM structure for spells can vary, so we're using a broader set of selectors.
+        // Common selectors include .ct-spells-spell__name, .ddbc-spell-name, .ct-spell-list__spell-name.
+        $(".ct-spells-spell__name, .ddbc-spell-name, .ct-spell-list__spell-name").each((i, el) => {
             const spellName = $(el).text().trim();
             if (spellName) {
                 this._spells.push(spellName);
