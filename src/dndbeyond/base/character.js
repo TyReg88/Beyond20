@@ -323,6 +323,7 @@ class Character extends CharacterBase {
     }
 
     updateFeatures() {
+        // Check for updates to features
         let update = false;
         // Use classes instead of level because using XP method, you could reach the higher level before you level up
         const last_classes = this.getSetting("last-features-classes", "");
@@ -332,6 +333,11 @@ class Character extends CharacterBase {
         if (class_detail.length > 0) {
             updated_features_list = true;
             this._class_features = this.featureDetailsToList(class_detail, "Class Features");
+        }
+
+        // Update spells and related flags
+        this.updateSpells();
+        this._has_hunters_mark = this.hasSpell("Hunter's Mark");
             if (!isListEqual(this._class_features, this.getSetting("class-features", []))) {
                 console.log("New class feature");
                 update = true;
