@@ -9,6 +9,8 @@ class Character extends CharacterBase {
         this._race = null;
         this._level = null;
         this._classes = null;
+        this._spells = [];
+        this._has_hunters_mark = false;
         this._ac = null;
         this._speed = null;
         this._proficiency = null;
@@ -441,6 +443,40 @@ class Character extends CharacterBase {
     hasClassFeature(name, substring=false) {
         if (substring) return this._class_features.some(f => f.includes(name));
         else return this._class_features.includes(name);
+    }
+
+    /**
+     * Checks if the character knows a specific spell.
+     * @param {string} name The name of the spell to check.
+     * @returns {boolean} True if the character knows the spell, false otherwise.
+     */
+    hasSpell(name) {
+        return this._spells.includes(name);
+    }
+
+    /**
+     * Returns true if the character has the Hunter's Mark spell.
+     * @returns {boolean}
+     */
+    get hasHuntersMark() {
+        return this._has_hunters_mark;
+    }
+
+    /**
+     * Updates the list of spells the character knows by parsing the character sheet.
+     */
+    updateSpells() {
+        this._spells = [];
+        // Look for spell names in the spell list sections.
+        // Assuming spell names are within specific elements, e.g., 'span.spell-name' or 'a.spell-name'
+        // This might need refinement based on the exact D&D Beyond DOM structure for spells.
+        $(".ct-spells-spell__name").each((i, el) => {
+            const spellName = $(el).text().trim();
+            if (spellName) {
+                this._spells.push(spellName);
+            }
+        });
+        //console.log("Beyond20: Character Spells:", this._spells);
     }
     hasRacialTrait(name, substring=false) {
         if (substring) return this._racial_traits.some(f => f.includes(name));
