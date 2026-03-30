@@ -177,6 +177,10 @@ function populateCharacter(response) {
             e = createHTMLOption("champion-remarkable-athlete", false, character_settings);
             options.append(e);
         }
+        if (response.hasHuntersMark) {
+            e = createHTMLOption("hunter-s-mark", false, character_settings);
+            options.append(e);
+        }
         if (response["class-features"].includes("Favored Foe")) {
             e = createHTMLOption("ranger-favored-foe", false, character_settings);
             options.append(e);
