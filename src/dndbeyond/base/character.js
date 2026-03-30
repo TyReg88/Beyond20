@@ -10,7 +10,6 @@ class Character extends CharacterBase {
         this._level = null;
         this._classes = null;
         this._spells = [];
-        this._has_hunters_mark = false;
         this._ac = null;
         this._speed = null;
         this._proficiency = null;
@@ -341,9 +340,8 @@ class Character extends CharacterBase {
             this._class_features = this.getSetting("class-features", []);
         }
 
-        // Update spells and related flags
+        // Update spells
         this.updateSpells();
-        this._has_hunters_mark = this.hasSpell("Hunter's Mark");
 
         const regex2024 = /Core (?:.*?).Traits/; // all 2024 classes (not homebrew) have core traits
         const traits = this._class_features.some(s => {
@@ -457,14 +455,6 @@ class Character extends CharacterBase {
      */
     hasSpell(name) {
         return this._spells.includes(name);
-    }
-
-    /**
-     * Returns true if the character has the Hunter's Mark spell.
-     * @returns {boolean}
-     */
-    get hasHuntersMark() {
-        return this._has_hunters_mark;
     }
 
     /**
@@ -641,6 +631,7 @@ class Character extends CharacterBase {
             "racial-traits": this._racial_traits,
             "feats": this._feats,
             "actions": this._actions,
+            "spells": this._spells, // Expose the spell list
             "spell_modifiers": this._spell_modifiers,
             "spell_saves": this._spell_saves,
             "spell_attacks": this._spell_attacks,

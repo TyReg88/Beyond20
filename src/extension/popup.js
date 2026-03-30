@@ -177,7 +177,7 @@ function populateCharacter(response) {
             e = createHTMLOption("champion-remarkable-athlete", false, character_settings);
             options.append(e);
         }
-        if (response.hasHuntersMark) {
+        if (response.spells.includes("Hunter's Mark")) { // Changed this line
             e = createHTMLOption("hunter-s-mark", false, character_settings);
             options.append(e);
         }
