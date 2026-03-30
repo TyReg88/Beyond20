@@ -333,11 +333,6 @@ class Character extends CharacterBase {
         if (class_detail.length > 0) {
             updated_features_list = true;
             this._class_features = this.featureDetailsToList(class_detail, "Class Features");
-        }
-
-        // Update spells and related flags
-        this.updateSpells();
-        this._has_hunters_mark = this.hasSpell("Hunter's Mark");
             if (!isListEqual(this._class_features, this.getSetting("class-features", []))) {
                 console.log("New class feature");
                 update = true;
@@ -345,6 +340,10 @@ class Character extends CharacterBase {
         } else {
             this._class_features = this.getSetting("class-features", []);
         }
+
+        // Update spells and related flags
+        this.updateSpells();
+        this._has_hunters_mark = this.hasSpell("Hunter's Mark");
 
         const regex2024 = /Core (?:.*?).Traits/; // all 2024 classes (not homebrew) have core traits
         const traits = this._class_features.some(s => {
