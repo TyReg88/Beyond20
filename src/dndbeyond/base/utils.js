@@ -243,6 +243,14 @@ async function applyRogueSneakAttack(character, name, properties, damages,
     if(!isLocked) settings_to_change["rogue-sneak-attack"] = false;
 }
 
+function applyHuntersMark(character, damages, damage_types, roll_properties) {
+    if (character.getSetting("effects-hunters-mark", false)) {
+        damages.push("1d6");
+        damage_types.push("Hunter's Mark");
+        addEffect(roll_properties, "Hunter's Mark");
+    }
+}
+
 async function buildAttackRoll(character, attack_source, name, description, properties,
                          damages = [], damage_types = [], to_hit = null,
                          brutal = 0, force_to_hit_only = false, force_damages_only = false, {weapon_damage_length=0}={}, settings_to_change = []) {
