@@ -464,8 +464,9 @@ class Character extends CharacterBase {
         this._spells = [];
         // Look for spell names in the spell list sections.
         // The D&D Beyond DOM structure for spells can vary, so we're using a broader set of selectors.
-        // Common selectors include .ct-spells-spell__name, .ddbc-spell-name, .ct-spell-list__spell-name.
-        $(".ct-spells-spell__name, .ddbc-spell-name, .ct-spell-list__spell-name").each((i, el) => {
+        // Common selectors include .ct-spells-spell__name, .ddbc-spell-name, .ct-spell-list__spell-name,
+        // and .ct-spells-level-slot-group-spell__name for spells listed in specific spell slots.
+        $(".ct-spells-spell__name, .ddbc-spell-name, .ct-spell-list__spell-name, .ct-spells-level-slot-group-spell__name").each((i, el) => {
             const spellName = $(el).text().trim();
             if (spellName) {
                 this._spells.push(spellName);
