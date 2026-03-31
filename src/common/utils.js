@@ -72,7 +72,12 @@ function getPlatform() {
 // This is necessary because content scripts can outlive the extension's background page
 // or service worker, leading to "Extension context invalidated" errors.
 function isExtensionDisconnected() {
-    return chrome.runtime === undefined || chrome.runtime.id === undefined;
+    try {
+        chrome.runtime.getURL("");
+        return false;
+    } catch (err) {
+        return true;
+    }
 }
 
 // Taken from https://stackoverflow.com/questions/9515704/insert-code-into-the-page-context-using-a-content-script;
