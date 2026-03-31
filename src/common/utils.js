@@ -68,13 +68,11 @@ function getPlatform() {
     }
 }
 
+// Checks if the extension context is still valid.
+// This is necessary because content scripts can outlive the extension's background page
+// or service worker, leading to "Extension context invalidated" errors.
 function isExtensionDisconnected() {
-    try {
-        chrome.runtime.getURL("");
-        return false;
-    } catch (err) {
-        return true;
-    }
+    return chrome.runtime === undefined || chrome.runtime.id === undefined;
 }
 
 // Taken from https://stackoverflow.com/questions/9515704/insert-code-into-the-page-context-using-a-content-script;
@@ -146,12 +144,16 @@ function isSupportedVTT(tab) {
 }
 
 function alertSettings(url, title) {
+    if (isExtensionDisconnected()) {
+        console.warn("Beyond20: Extension context invalidated, cannot open settings popup.");
+        return;
+    }
     if (alertify.Beyond20Settings === undefined)
         alertify.dialog('Beyond20Settings', function () { return {}; }, false, "alert");
 
     const popup = chrome.runtime.getURL(url);
-    const img = E.img({ src: chrome.runtime.getURL("images/icons/icon32.png"), style: "margin-right: 3px;" })
-    const iframe = E.iframe({ src: popup, style: "width: 100%; height: 100%;", frameborder: "0", scrolling: "yes" });
+    const img = E.img({ src: chrome.runtime.getURL("images/icons/icon32.png"), style: "margin-right: 5px" });
+    const iframe = E.iframe({ src: popup, style: "width: 100%; height: 100%;", frameborder: "0", scrolling: "no" });
     const dialog = alertify.Beyond20Settings(img.outerHTML + title, iframe);
     const width = Math.min(720, window.innerWidth / 2); // 720px width or 50% on small screens
     dialog.set('padding', false).set('resizable', true).set('overflow', false).resizeTo(width, "80%");
